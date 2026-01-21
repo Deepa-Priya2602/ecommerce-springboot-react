@@ -1,5 +1,4 @@
-E-Commerce Application
-Tech Stack
+Tech Stack:
 
 Backend: Spring Boot
 
