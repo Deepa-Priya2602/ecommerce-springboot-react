@@ -1,14 +1,17 @@
-# Use official Java runtime
-FROM openjdk:17
+# Stage 1: Build the app
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 
-# Set working directory inside container
 WORKDIR /app
+COPY . .
 
-# Copy the built jar file into container
-COPY target/*.jar app.jar
+RUN mvn clean package -DskipTests
 
-# Expose Spring Boot port
+# Stage 2: Run the app
+FROM eclipse-temurin:17-jdk
+
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+
 EXPOSE 8080
 
-# Run the application
 ENTRYPOINT ["java","-jar","app.jar"]
